@@ -58,11 +58,14 @@ body {
     border: none !important;
     margin-bottom: 2rem;
     transition: transform 0.5s ease-in-out;
+    height: 50px;
+    width: 200px;
 }
 
 .card-img-top {
     border-radius: 1rem !important;
     width: 100% !important;
+    height: 100px !important;
     object-fit: cover !important;
 }
 
