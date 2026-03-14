@@ -57,7 +57,6 @@ body {
 .card {
     border: none !important;
     margin-bottom: 2rem;
-    transition: transform 0.5s ease-in-out;
     height: 50px;
     width: 200px;
 }
@@ -85,7 +84,6 @@ body {
 /* card effect */
 .card:hover {
     opacity: 0.8;
-    transform: scale(1.01);
 }
 
 .show-img {
