@@ -54,7 +54,7 @@ body {
 }
 
 /* cards */
-.card {
+.listing-card {
     border: none !important;
     margin-bottom: 2rem;
     height: 50px;
@@ -88,4 +88,8 @@ body {
 
 .show-img {
     height: 30vh;
+}
+
+.me {
+    height: 250px !important;
 }
