@@ -42,7 +42,7 @@ router.post("/login", saveRedirectUrl, passport.authenticate("local", {failureRe
 })
 // saveRedirectUrl is a middleware used because after passport authentication url saved in middleware is deleted
 
-router.get("logout", (eq, res, next) => {
+router.get("/logout", (req, res, next) => {
     req.logout((err) => {
         if(err) {
             return next(err);
