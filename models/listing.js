@@ -10,9 +10,8 @@ const listingSchema = new Schema({
     },
     description: String,
     image: {
-        default: "https://play-lh.googleusercontent.com/5WTYuaEvBSQ3Eh_YbzH-MCwQeB3wdEvXoxXGVDtvpeFSunyeXbVwjmul6y5J1d2rKeg",
-        type: String,
-        set: (v) => v===""?"https://play-lh.googleusercontent.com/5WTYuaEvBSQ3Eh_YbzH-MCwQeB3wdEvXoxXGVDtvpeFSunyeXbVwjmul6y5J1d2rKeg":v
+        url: String,
+        filename: String
     },
     price: Number,
     location: String,
