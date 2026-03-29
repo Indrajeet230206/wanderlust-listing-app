@@ -10,7 +10,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 // const wrapAsync = require("./utils/wrapAsync.js");
-// const ExpressError = require("./utils/ExpressError.js");
+const ExpressError = require("./utils/ExpressError.js");
 // const {listingSchema, reviewSchema} = require("./schema");
 // const Review = require("./models/review.js");
 const session = require("express-session");
@@ -53,9 +53,9 @@ const sessionOptions = {
     }
 };
 
-app.get("/", (req, res) => {
-    res.send("hi, i am root");
-});
+// app.get("/", (req, res) => {
+//     res.send("hi, i am root");
+// });
 
 app.use(session(sessionOptions));
 app.use(flash()); // session required
@@ -103,6 +103,10 @@ app.use("/", userRouter);
 //     console.log("sample was saved");
 //     res.send("successful test");
 // });
+
+app.use((req, res, next) => {
+    next(new ExpressError(404, "page not found"));
+});
 
 app.use((err, req, res, next) => {
     let {statusCode = 500, message="something went wrong"} = err;
