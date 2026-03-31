@@ -1,4 +1,8 @@
 const Listing = require("../models/listing");
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapToken = process.env.MAP_TOkEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken});
+
 
 module.exports.index = async (req, res) => {
     const allListings = await Listing.find({});
@@ -20,12 +24,26 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res, next) => {
+    let response = await geocodingClient.forwardGeocode({
+        query: req.body.listing.location,
+        limit: 1
+    })
+        .send()
+
+    if (!response.body.features.length) {
+        req.flash("error", "Invalid location");
+        return res.redirect("/listings/new");
+    }
+
     // let {title, description, image, price, country, location} = req.body;
     let url = req.file.path;
     let filename = req.file.filename
     const newlisting = new Listing(req.body.listing);
     newlisting.owner = req.user._id;
     newlisting.image = {url, filename};
+
+    newlisting.geometry = response.body.features[0].geometry;
+
     await newlisting.save();
     req.flash("success", "New listing created");
     res.redirect("/listings");
@@ -53,6 +71,25 @@ module.exports.updateListing = async (req, res) => {
             filename: req.file.filename
         };
     }
+
+    // 1️⃣ Geocode new location
+    let response = await geocodingClient.forwardGeocode({
+        query: req.body.listing.location,
+        limit: 1
+    }).send();
+
+    if (!response.body.features.length) {
+        req.flash("error", "Invalid location");
+        return res.redirect(`/listings/${id}/edit`);
+    }
+
+    const geometry = response.body.features[0].geometry;
+
+    // 2️⃣ Update listing + geometry
+    let updatedListing = await Listing.findByIdAndUpdate(id, {
+        ...req.body.listing,
+        geometry: geometry
+    }, { new: true });
 
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     // let listing = await Listing.findByIdAndUpdate(id, {...req.body.listing});

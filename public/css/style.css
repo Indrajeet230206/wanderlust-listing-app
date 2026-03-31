@@ -93,3 +93,9 @@ body {
 .me {
     height: 250px !important;
 }
+
+#map { 
+    height: 300px;
+    width: 100vh;
+    border-radius: 20px;
+}
