@@ -1,8 +1,10 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing.js");
 
-const mongo_url = "mongodb://127.0.0.1:27017/wanderlust";
+// const mongo_url = "mongodb://127.0.0.1:27017/wanderlust";
+const dbUrl = process.env.ATLASDB_URL;
 
 main().then(() => {
     console.log("connected to db");
@@ -11,14 +13,14 @@ main().then(() => {
 });
 
 async function main() {
-    await mongoose.connect(mongo_url);
+    await mongoose.connect(dbUrl);
 };
 
 const initDB = async () => {
     await Listing.deleteMany({});
     initData.data = initData.data.map((obj) => ({
     ...obj,
-    owner: "69bebd94107167fa5b37add8",
+    owner: "69cf770acf96cf1ccddc1ef7",
     geometry: {
         type: "Point",
         coordinates: [73.8567, 18.5204] // Pune (same for all)
