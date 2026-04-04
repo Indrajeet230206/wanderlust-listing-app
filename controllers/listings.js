@@ -9,6 +9,22 @@ module.exports.index = async (req, res) => {
     res.render("listings/index.ejs", { allListings });
 };
 
+module.exports.search = async(req, res) => {
+    
+    let q = req.query.q?.trim();
+
+    if (!q) return res.redirect("/listings");
+
+    let allListings = await Listing.find({
+        $or: [
+        { title: { $regex: "^" + q, $options: "i" } },
+        { location: { $regex: "^" + q, $options: "i" } }
+    ]
+    });
+
+    res.render("listings/index.ejs", { allListings, q });
+}
+
 module.exports.renderNewForm = (req, res) => {
     res.render("listings/new.ejs");
 };

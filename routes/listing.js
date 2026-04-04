@@ -9,6 +9,9 @@ const upload = multer({ storage });
 
 const listingcontroller = require("../controllers/listings.js");
 
+//search route
+router.get("/search", wrapAsync(listingcontroller.search));
+
 router
     .route("/")
     .get(wrapAsync(listingcontroller.index)) //index route

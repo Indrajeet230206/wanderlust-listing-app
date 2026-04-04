@@ -38,6 +38,7 @@
             padding: 1rem;
             display: flex;
             align-items: center;
+            margin-top: -0.4rem;
         }
     </style>
     
@@ -96,6 +97,11 @@
     </div>
 
     <div class="row row-cols-lg-5 row-cols-md-3 row-cols-sm-2 ">
+        <% if(allListings.length==0) { %>
+            <div class="d-flex justify-content-center align-items-center w-100" style="height: 60vh;">
+                <h1 style="color: rgb(255, 17, 17)">Listing not found !</h1>
+            </div>
+        <% } %>
         <% for(let listing of allListings) { %>
         <a href="/listings/<%= listing._id %>" class="listing-link">
         <div class="card listing-card" >
